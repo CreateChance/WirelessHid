@@ -1,6 +1,9 @@
 # WirelessHid
 基于无线wifi的hid实现，使用android设备的触摸屏通过wifi网络控制pc上的鼠标指针和基本键盘数据输入。
 
+整个架构是C/S架构的，其中android设备是server端，pc（windows/linux）是client端。Android上的输入移动事件通过网络打包发送给pc端，目前的打包是使用的google的protocol buffer，这是一个基于二进制的数据封装和解封装的开源库，详情请见：
+https://developers.google.com/protocol-buffers/
+
 目前实现了以下功能：
 
   1. 鼠标移动控制
