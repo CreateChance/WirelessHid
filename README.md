@@ -19,5 +19,9 @@ https://developers.google.com/protocol-buffers/
   3. 对特殊键盘的支持不够，比如上下左右移动键，home键，page up/down等
   4. 目前不能支持触摸板手势操作（如放大手势），不能支持键盘的组合键输入。
 
-一下是运行时快照：
+以下是运行时快照：
 android端（server）:
+![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_1.png)
+![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_2.png)
+pc端（client）:
+![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Selection_015.png)
