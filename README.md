@@ -18,3 +18,6 @@ https://developers.google.com/protocol-buffers/
   2. 目前的键值有的不正确（比如菜单键，win徽标键等），暂时没有找到合适的键值。
   3. 对特殊键盘的支持不够，比如上下左右移动键，home键，page up/down等
   4. 目前不能支持触摸板手势操作（如放大手势），不能支持键盘的组合键输入。
+
+一下是运行时快照：
+android端（server）:
