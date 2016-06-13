@@ -23,6 +23,6 @@ https://developers.google.com/protocol-buffers/
 android端（server）:
 ![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_1.png)
 ![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_2.png)
-
 pc端（client）:
+
 ![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Selection_015.png)
