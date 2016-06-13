@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WirelessHid</string>
+
+    <string name="speed_slow">SLOW</string>
+    <string name="speed_medium">MEDIUM</string>
+    <string name="speed_fast">FAST</string>
+
+    <string name="led_numlock">Num Lock</string>
+    <string name="led_capslock">Caps Lock</string>
+    <string name="led_scrolllock">Scroll Lock</string>
+</resources>
