@@ -28,39 +28,32 @@
 -->
 <Keyboard>
     <Layout>
-        <Key keyLabel="Prev\n&#x21E6;" keyCode="0x80"/>
-        <Key keyLabel="Next\n&#x21E8;" keyCode="0x81"/>
-        <Key keyLabel="Stop" keyCode="0x82"/>
-        <Key keyLabel="Play" keyCode="0x83"/>
-        <Key keyLabel="Pause" keyCode="0x84"/>
+        <Key keyLabel="Num\nLock" keyCode="144"/>
+        <Key keyLabel="/" keyCode="111"/>
+        <Key keyLabel="*" keyCode="106"/>
+        <Key keyLabel="-" keyCode="45"/>
     </Layout>
     <Layout>
-        <Key keyLabel="Num\nLock" keyCode="0x53"/>
-        <Key keyLabel="/" keyCode="0x54"/>
-        <Key keyLabel="*" keyCode="0x55"/>
-        <Key keyLabel="-" keyCode="0x56"/>
+        <Key keyLabel="7\nHome" keyCode="0103"/>
+        <Key keyLabel="8 &#x2191;" keyCode="104"/>
+        <Key keyLabel="9\nPgUp" keyCode="105"/>
+        <Key keyLabel="+" keyCode="521"/>
     </Layout>
     <Layout>
-        <Key keyLabel="7\nHome" keyCode="0x5F"/>
-        <Key keyLabel="8 &#x2191;" keyCode="0x60"/>
-        <Key keyLabel="9\nPgUp" keyCode="0x61"/>
-        <Key keyLabel="+" keyCode="0x57"/>
-    </Layout>
-    <Layout>
-        <Key keyLabel="4\n&#x2190;" keyCode="0x5C"/>
-        <Key keyLabel="5" keyCode="0x5D"/>
-        <Key keyLabel="6\n&#x2192;" keyCode="0x5E"/>
+        <Key keyLabel="4\n&#x2190;" keyCode="100"/>
+        <Key keyLabel="5" keyCode="101"/>
+        <Key keyLabel="6\n&#x2192;" keyCode="102"/>
         <Key visible="false"/>
     </Layout>
     <Layout>
-        <Key keyLabel="1\nEnd" keyCode="0x59"/>
-        <Key keyLabel="2 &#x2193;" keyCode="0x5A"/>
-        <Key keyLabel="3\nPgDn" keyCode="0x5B"/>
+        <Key keyLabel="1\nEnd" keyCode="97"/>
+        <Key keyLabel="2 &#x2193;" keyCode="98"/>
+        <Key keyLabel="3\nPgDn" keyCode="99"/>
         <Key visible="false"/>
     </Layout>
     <Layout>
-        <Key keyLabel="0\nIns" keyCode="0x62" weight="2.0"/>
-        <Key keyLabel=".\nDel" keyCode="0x63"/>
-        <Key keyLabel="Enter" keyCode="0x58"/>
+        <Key keyLabel="0\nIns" keyCode="96" weight="2.0"/>
+        <Key keyLabel=".\nDel" keyCode="110"/>
+        <Key keyLabel="Enter" keyCode="10"/>
     </Layout>
 </Keyboard>

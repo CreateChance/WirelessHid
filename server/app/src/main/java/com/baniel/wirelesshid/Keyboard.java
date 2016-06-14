@@ -20,9 +20,9 @@ public class Keyboard extends LinearLayout implements Key.KeyListener {
     private final List<Key> mKeysWithShiftLabel = new ArrayList<Key>();
 
     public interface KeyboardListener {
-        public void onKeyDown(byte keyCode);
+        public void onKeyDown(int keyCode);
 
-        public void onKeyUp(byte keyCode);
+        public void onKeyUp(int keyCode);
     }
 
     public Keyboard(Context context, int xmlResourceID) {
@@ -93,7 +93,7 @@ public class Keyboard extends LinearLayout implements Key.KeyListener {
                     attrs.keyFunction = getStringAttributeValue(xmlParser, "keyFunc", "");
                     attrs.mainLabel = getStringAttributeValue(xmlParser, "keyLabel", "");
                     attrs.shiftLabel = getStringAttributeValue(xmlParser, "shiftLabel", "");
-                    attrs.keyCode = (byte) xmlParser.getAttributeIntValue(null, "keyCode", 0);
+                    attrs.keyCode = xmlParser.getAttributeIntValue(null, "keyCode", 0);
 
                     Key key = new Key(context, attrs);
                     key.setLayoutParams(new LayoutParams(
@@ -132,13 +132,13 @@ public class Keyboard extends LinearLayout implements Key.KeyListener {
         }
     }
 
-    private void dispatchOnKeyDown(byte keyCode) {
+    private void dispatchOnKeyDown(int keyCode) {
         if (mKeyboardListener != null) {
             mKeyboardListener.onKeyDown(keyCode);
         }
     }
 
-    private void dispatchOnKeyUp(byte keyCode) {
+    private void dispatchOnKeyUp(int keyCode) {
         if (mKeyboardListener != null) {
             mKeyboardListener.onKeyUp(keyCode);
         }
@@ -149,7 +149,7 @@ public class Keyboard extends LinearLayout implements Key.KeyListener {
     }
 
     @Override
-    public void onKeyDown(String keyFunction, byte keyCode) {
+    public void onKeyDown(String keyFunction, int keyCode) {
         dispatchOnKeyDown(keyCode);
         if (keyFunction.toLowerCase().contains("shift")) {
             if (mShiftCount == 0) {
@@ -160,7 +160,7 @@ public class Keyboard extends LinearLayout implements Key.KeyListener {
     }
 
     @Override
-    public void onKeyUp(String keyFunction, byte keyCode) {
+    public void onKeyUp(String keyFunction, int keyCode) {
         dispatchOnKeyUp(keyCode);
         if (mShiftCount > 0 && keyFunction.toLowerCase().contains("shift")) {
             mShiftCount--;

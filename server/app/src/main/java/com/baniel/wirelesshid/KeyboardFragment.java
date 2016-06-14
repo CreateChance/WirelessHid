@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +31,8 @@ public class KeyboardFragment extends FragmentActivity implements WirelessHidSer
 
     private LongPressCheckTask mLongPressCheckTask = null;
     private boolean mIsLongPressed = false;
+
+    private ViewGroup keyboard = null;
 
     public KeyboardFragment() {
 
@@ -56,7 +60,7 @@ public class KeyboardFragment extends FragmentActivity implements WirelessHidSer
 
         View view = creatQwertyKeyboard(this);
 
-        ViewGroup keyboard = (ViewGroup) this.findViewById(R.id.keyboard);
+        keyboard = (ViewGroup) this.findViewById(R.id.keyboard);
         keyboard.addView(view);
 
         mLongPressCheckTask = new LongPressCheckTask();
@@ -71,12 +75,40 @@ public class KeyboardFragment extends FragmentActivity implements WirelessHidSer
         doUnbindService();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        menu.add(Menu.NONE, 0, 1, "MainKeyboard");
+        menu.add(Menu.NONE, 1, 2, "SideKeyboard");
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Log.d(TAG, "item id: " + item.getItemId());
+        keyboard.removeAllViews();
+        switch (item.getItemId()) {
+            case 0:
+                // main keyboard.
+                keyboard.addView(creatQwertyKeyboard(this));
+                break;
+            case 1:
+                // side keyboard.
+                keyboard.addView(createNavigationAndNumericKeyboard(this));
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private Keyboard createKeyboard(Context context, int xmlResourceID) {
 
-        Keyboard keyboard = new Keyboard(context, xmlResourceID);
+        final Keyboard keyboard = new Keyboard(context, xmlResourceID);
         keyboard.setKeyboardListener(new Keyboard.KeyboardListener() {
             @Override
-            public void onKeyUp(byte keyCode) {
+            public void onKeyUp(int keyCode) {
                 Log.d(TAG, "up keycode: " + keyCode);
 
                 if (mDataSendHandler != null) {
@@ -101,13 +133,14 @@ public class KeyboardFragment extends FragmentActivity implements WirelessHidSer
             }
 
             @Override
-            public void onKeyDown(byte keyCode) {
+            public void onKeyDown(int keyCode) {
+                Log.d(TAG, "key down: " + keyCode);
 
                 if (keyCode == 144) {
                     // 144 means number lock
                     mIsNumLockActive = !mIsNumLockActive;
                     KeyboardFragment.this.findViewById(R.id.led_numlock).
-                            setBackgroundColor(getResources().getColor(mIsCapsLockActive ? R.color.led_on : R.color.led_off));
+                            setBackgroundColor(getResources().getColor(mIsNumLockActive ? R.color.led_on : R.color.led_off));
                 } else if (keyCode == 20) {
                     // 20 means caps lock.
                     mIsCapsLockActive = !mIsCapsLockActive;
@@ -117,7 +150,7 @@ public class KeyboardFragment extends FragmentActivity implements WirelessHidSer
                     // 145 means scroll lock
                     mIsScrollLockActive = !mIsScrollLockActive;
                     KeyboardFragment.this.findViewById(R.id.led_scrolllock).
-                            setBackgroundColor(getResources().getColor(mIsCapsLockActive ? R.color.led_on : R.color.led_off));
+                            setBackgroundColor(getResources().getColor(mIsScrollLockActive ? R.color.led_on : R.color.led_off));
                 } else if (mDataSendHandler != null) {
                     mLongPressCheckTask.setKeyCode(keyCode);
                     mDataSendHandler.postDelayed(mLongPressCheckTask, 1000);

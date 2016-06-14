@@ -14,13 +14,13 @@ public class Key extends Button {
         public String keyFunction;
         public String mainLabel;
         public String shiftLabel;
-        public byte keyCode;
+        public int keyCode;
     }
 
     public interface KeyListener {
-        public void onKeyDown(String keyFunction, byte keyCode);
+        public void onKeyDown(String keyFunction, int keyCode);
 
-        public void onKeyUp(String keyFunction, byte keyCode);
+        public void onKeyUp(String keyFunction, int keyCode);
     }
 
     public Key(Context context, KeyAttributes keyAttributes) {
