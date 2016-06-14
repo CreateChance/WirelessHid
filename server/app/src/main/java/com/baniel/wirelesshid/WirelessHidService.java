@@ -38,6 +38,7 @@ public class WirelessHidService extends Service {
 
             if (ACTION_RESET_CONNECTION.equals(action)) {
                 Log.d(TAG, "reset connection");
+                Toast.makeText(context, "Connection Lost!", Toast.LENGTH_SHORT).show();
                 new DataSendThread().start();
             }
         }
@@ -70,6 +71,12 @@ public class WirelessHidService extends Service {
 
         if (mDataSendHandler != null) {
             mDataSendHandler.getLooper().quitSafely();
+        }
+
+        try {
+            mServerSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         unregisterReceiver(mReceiver);

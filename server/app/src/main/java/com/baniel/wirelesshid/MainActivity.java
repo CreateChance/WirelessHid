@@ -10,12 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     private final String TAG = "MainActivity";
 
-    private FragmentManager fragmentManager = null;
+    private long mPressTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,21 +26,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentManager = getFragmentManager();
-
         Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
         startService(intent);
-    }
 
-    @Override
-    protected void onDestroy() {
 
-        Log.d(TAG, "onDestroy");
-
-        super.onDestroy();
-
-        Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
-        stopService(intent);
     }
 
     @Override
@@ -62,5 +52,22 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        long time = System.currentTimeMillis();
+
+        if (time - mPressTime < 1500) {
+            Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
+            stopService(intent);
+
+            finish();
+        } else {
+            Toast.makeText(this, "Press again to exit.", Toast.LENGTH_SHORT).show();
+        }
+
+        mPressTime = time;
     }
 }

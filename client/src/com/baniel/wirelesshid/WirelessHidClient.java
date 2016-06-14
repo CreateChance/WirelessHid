@@ -31,10 +31,14 @@ public class WirelessHidClient {
 			mSocket = new Socket(args[0], HID_TCP_PORT);
 			is = mSocket.getInputStream();
 			mRobot = new Robot();
-			System.out.println("Server connected!");
+			printClientInfo(mSocket);
 			while (true) {
 				data = HidData.parseDelimitedFrom(is);
-				handleData(data);
+				if (data != null) {
+					handleData(data);
+				} else {
+					break;
+				}
 			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -48,6 +52,13 @@ public class WirelessHidClient {
 			// TODO: handle exception
 			System.exit(-1);
 		}
+		
+		System.out.println("Connection lost.");
+	}
+	
+	private static void printClientInfo(Socket socket) {
+		System.out.println("Client connected!");
+		System.out.println("remote info: " + socket.getRemoteSocketAddress());
 	}
 	
 	private static void handleData(HidData data) {
