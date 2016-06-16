@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class WirelessHidService extends Service {
 
@@ -27,7 +28,7 @@ public class WirelessHidService extends Service {
     private ServerSocket mServerSocket = null;
     private Socket mSocket = null;
 
-    private DataHandlerListener mListener = null;
+    private ArrayList<DataHandlerListener> mListenerList = new ArrayList<>();
 
     private final String ACTION_RESET_CONNECTION = "com.baniel.wirelesshid.ACTION_RESET_CONNECTION";
 
@@ -35,6 +36,7 @@ public class WirelessHidService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            Log.d(TAG, "action: " + action);
 
             if (ACTION_RESET_CONNECTION.equals(action)) {
                 Log.d(TAG, "reset connection");
@@ -93,7 +95,7 @@ public class WirelessHidService extends Service {
     }
 
     public void setListener(DataHandlerListener listener) {
-        this.mListener = listener;
+        mListenerList.add(listener);
     }
 
     private class DataSendThread extends Thread {
@@ -131,9 +133,7 @@ public class WirelessHidService extends Service {
                     } catch (IOException e) {
                         Log.d(TAG, "IOException, close all resource.");
                         mDataSendHandler = null;
-                        if (mListener != null) {
-                            mListener.onHandlerChanged(mDataSendHandler);
-                        }
+                        notifyListener();
                         this.getLooper().quit();
                         sendBroadcast(new Intent(ACTION_RESET_CONNECTION));
                     } finally {
@@ -146,9 +146,7 @@ public class WirelessHidService extends Service {
                 }
             };
 
-            if (mListener != null) {
-                mListener.onHandlerChanged(mDataSendHandler);
-            }
+            notifyListener();
 
             Looper.loop();
         }
@@ -156,5 +154,11 @@ public class WirelessHidService extends Service {
 
     public Handler getDataSendHandler() {
         return this.mDataSendHandler;
+    }
+
+    private void notifyListener() {
+        for (int i = 0; i < mListenerList.size(); i++) {
+            mListenerList.get(i).onHandlerChanged(mDataSendHandler);
+        }
     }
 }

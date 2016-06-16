@@ -50,18 +50,12 @@ public class MouseFragment extends Fragment implements WirelessHidService.DataHa
             mService = ((WirelessHidService.MyBinder)service).getService();
             mDataSendHandler = mService.getDataSendHandler();
             mService.setListener(MouseFragment.this);
-
-            Toast.makeText(getActivity(), "Service connected!",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mService = null;
             mDataSendHandler = null;
-
-            Toast.makeText(getActivity(), "Service disconnected!",
-                    Toast.LENGTH_SHORT).show();
         }
     };
 
