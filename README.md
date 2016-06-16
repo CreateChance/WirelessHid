@@ -16,15 +16,15 @@ https://developers.google.com/protocol-buffers/
 目前的已知问题：
 
   1. 在windows上的性能不佳，有数据丢失的问题，鼠标键盘比较卡顿，linux上非常流畅。
-  2. 目前的键值有的不正确（比如菜单键，win徽标键等），暂时没有找到合适的键值。
-  3. 对特殊键盘的支持不够，比如上下左右移动键，home键，page up/down等
+  2. 目前的键值有的不正确（比如菜单键等，按照javadoc的键值不能使用），暂时没有找到合适的键值。
   4. 目前不能支持触摸板手势操作（如放大手势），不能支持键盘的组合键输入。
   5. 设置鼠标速度之后，鼠标坐标点不连贯问题
 
 以下是运行时快照：
 android端（server）:
-![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_1.png)
-![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Screenshot_2.png)
+![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_1.png)
+![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_2.png)
+![screenshot 3](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_3.png)
 pc端（client）:
 
-![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Selection_015.png)
+![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/client_1.png)
