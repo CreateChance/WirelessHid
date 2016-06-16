@@ -5,9 +5,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,6 +27,10 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
 
     private WirelessHidService mService = null;
     private Handler mDataSendHandler = null;
+
+    private ShakeDetector shakeDetector = null;
+
+    private PowerManager.WakeLock mWakeLock = null;
 
     private boolean mIsBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -56,6 +65,11 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
         Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
         startService(intent);
         doBindService();
+
+        mWakeLock = ((PowerManager)this.getSystemService(Context.POWER_SERVICE)).
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WirelessHid");
+
+        shakeDetector = new ShakeDetector(this);
     }
 
     @Override
@@ -115,11 +129,23 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
         }
 
         if (mDataSendHandler != null && data != null) {
-            Log.d(TAG, "send data");
             mDataSendHandler.obtainMessage(0, data).sendToTarget();
         }
 
         return data != null || super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (shakeDetector != null) {
+            shakeDetector.stop();
+        }
+
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
     }
 
     void doBindService() {
@@ -143,5 +169,104 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
     @Override
     public void onHandlerChanged(Handler handler) {
         this.mDataSendHandler = handler;
+    }
+
+    private class ShakeDetector implements SensorEventListener {
+        private final int SPEED_SHRESHOLD = 5000;
+        private final int UPTATE_INTERVAL_TIME = 70;
+        private final int SHAKE_INTERVAL_TIME = 500;
+
+        private boolean gotShake = false;
+
+        private SensorManager sensorManager;
+
+        private Sensor sensor;
+
+        private Context context;
+
+        private float lastX;
+        private float lastY;
+        private float lastZ;
+
+        private long lastUpdateTime = 0;
+        private long lastShakeTime = 0;
+
+        public ShakeDetector(Context c) {
+            context = c;
+            start();
+        }
+
+        public void start() {
+            sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+            if(sensorManager != null) {
+                sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            }
+            if(sensorManager != null && sensor != null) {
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME, 0);
+                mWakeLock.acquire();
+            }
+
+        }
+
+        public void stop() {
+            sensorManager.unregisterListener(this);
+        }
+
+        public void onSensorChanged(SensorEvent event) {
+
+            if (gotShake) {
+                return;
+            }
+
+            long currentUpdateTime = System.currentTimeMillis();
+
+            long shakeInterval = currentUpdateTime - lastShakeTime;
+            if (shakeInterval < SHAKE_INTERVAL_TIME) {
+                return;
+            }
+
+            long updateInterval = currentUpdateTime - lastUpdateTime;
+
+            if(updateInterval < UPTATE_INTERVAL_TIME) {
+                return;
+            }
+
+            lastUpdateTime = currentUpdateTime;
+
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            float deltaX = x - lastX;
+            float deltaY = y - lastY;
+            float deltaZ = z - lastZ;
+
+            lastX = x;
+            lastY = y;
+            lastZ = z;
+
+            double square = deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ;
+            double speed = Math.sqrt(square)/updateInterval * 10000;
+
+            if(speed >= SPEED_SHRESHOLD) {
+                gotShake = true;
+                lastShakeTime = System.currentTimeMillis();
+                onShake();
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+
+        private void onShake() {
+            WirelessHidProto.HidData data = WirelessHidProto.HidData.newBuilder()
+                        .setType(WirelessHidProto.HidData.DataType.KEYBOARD_HIT)
+                        .setKeyboardValue(39).build();
+            if (mDataSendHandler != null && data != null) {
+                mDataSendHandler.obtainMessage(0, data).sendToTarget();
+            }
+            gotShake = false;
+        }
     }
 }
