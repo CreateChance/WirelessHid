@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard>
+    <Layout>
+        <Key keyLabel="Print\nScreen" keyCode="154"/>
+        <Key keyLabel="Scroll\nLock" keyCode="145"/>
+        <Key keyLabel="Pause\nBreak" keyCode="19"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Insert" keyCode="155"/>
+        <Key keyLabel="Home" keyCode="36"/>
+        <Key keyLabel="Page Up" keyCode="33"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Delete" keyCode="127"/>
+        <Key keyLabel="End" keyCode="35"/>
+        <Key keyLabel="Page Down" keyCode="34"/>
+    </Layout>
+    <Layout>
+        <Key visible="false"/>
+        <Key keyLabel="&#x2191;" keyCode="38"/>
+        <Key visible="false"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="&#x2190;" keyCode="37"/>
+        <Key keyLabel="&#x2193;" keyCode="40"/>
+        <Key keyLabel="&#x2192;" keyCode="39"/>
+    </Layout>
+</Keyboard>

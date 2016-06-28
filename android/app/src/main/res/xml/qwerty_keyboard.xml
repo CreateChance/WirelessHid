@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard>
+    <Layout>
+        <Key keyLabel="Esc" keyCode="27"/>
+        <Key keyLabel="F1" keyCode="112"/>
+        <Key keyLabel="F2" keyCode="113"/>
+        <Key keyLabel="F3" keyCode="114"/>
+        <Key keyLabel="F4" keyCode="115"/>
+        <Key keyLabel="F5" keyCode="116"/>
+        <Key keyLabel="F6" keyCode="117"/>
+        <Key keyLabel="F7" keyCode="118"/>
+        <Key keyLabel="F8" keyCode="119"/>
+        <Key keyLabel="F9" keyCode="120"/>
+        <Key keyLabel="F10" keyCode="121"/>
+        <Key keyLabel="F11" keyCode="122"/>
+        <Key keyLabel="F12" keyCode="123"/>
+        <Key keyLabel="Del" keyCode="127"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="'" shiftLabel="~" keyCode="192"/>
+        <Key keyLabel="1" shiftLabel="!" keyCode="49"/>
+        <Key keyLabel="2" shiftLabel="\@" keyCode="50"/>
+        <Key keyLabel="3" shiftLabel="\#" keyCode="51"/>
+        <Key keyLabel="4" shiftLabel="$" keyCode="52"/>
+        <Key keyLabel="5" shiftLabel="%" keyCode="53"/>
+        <Key keyLabel="6" shiftLabel="^" keyCode="54"/>
+        <Key keyLabel="7" shiftLabel="&amp;" keyCode="55"/>
+        <Key keyLabel="8" shiftLabel="*" keyCode="56"/>
+        <Key keyLabel="9" shiftLabel="(" keyCode="57"/>
+        <Key keyLabel="0" shiftLabel=")" keyCode="48"/>
+        <Key keyLabel="-" shiftLabel="_" keyCode="45"/>
+        <Key keyLabel="=" shiftLabel="+" keyCode="61"/>
+        <Key keyLabel="Backspace &#x2190;" keyCode="8" weight="1.5"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Tab &#x21B9;" keyCode="9" weight="1.5"/>
+        <Key keyLabel="Q" keyCode="81"/>
+        <Key keyLabel="W" keyCode="87"/>
+        <Key keyLabel="E" keyCode="69"/>
+        <Key keyLabel="R" keyCode="82"/>
+        <Key keyLabel="T" keyCode="84"/>
+        <Key keyLabel="Y" keyCode="89"/>
+        <Key keyLabel="U" keyCode="85"/>
+        <Key keyLabel="I" keyCode="73"/>
+        <Key keyLabel="O" keyCode="79"/>
+        <Key keyLabel="P" keyCode="80"/>
+        <Key keyLabel="[" keyCode="91" shiftLabel="{"/>
+        <Key keyLabel="]" keyCode="93" shiftLabel="}"/>
+        <Key keyLabel="\\" keyCode="92" shiftLabel="|"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Caps Lock" keyCode="20" weight="1.5"/>
+        <Key keyLabel="A" keyCode="65"/>
+        <Key keyLabel="S" keyCode="83"/>
+        <Key keyLabel="D" keyCode="68"/>
+        <Key keyLabel="F" keyCode="70"/>
+        <Key keyLabel="G" keyCode="71"/>
+        <Key keyLabel="H" keyCode="72"/>
+        <Key keyLabel="J" keyCode="74"/>
+        <Key keyLabel="K" keyCode="75"/>
+        <Key keyLabel="L" keyCode="76"/>
+        <Key keyLabel=";" keyCode="59" shiftLabel=":"/>
+        <Key keyLabel="'" keyCode="44" shiftLabel="&quot;"/>
+        <Key keyLabel="Enter &#x21B5;" keyCode="10" weight="3.0"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Shift &#x21E7;" keyCode="16" keyFunc="Shift" weight="1.5"/>
+        <Key keyLabel="Z" keyCode="90"/>
+        <Key keyLabel="X" keyCode="88"/>
+        <Key keyLabel="C" keyCode="67"/>
+        <Key keyLabel="V" keyCode="86"/>
+        <Key keyLabel="B" keyCode="66"/>
+        <Key keyLabel="N" keyCode="78"/>
+        <Key keyLabel="M" keyCode="77"/>
+        <Key keyLabel="," keyCode="44" shiftLabel="&lt;"/>
+        <Key keyLabel="." keyCode="46" shiftLabel="&gt;"/>
+        <Key keyLabel="/" keyCode="47" shiftLabel="\?"/>
+        <Key keyLabel="Shift &#x21E7;" keyCode="16" keyFunc="Shift" weight="1.5"/>
+    </Layout>
+    <Layout>
+        <Key keyLabel="Ctrl" keyCode="17" weight="1.5"/>
+        <Key keyLabel="Win" keyCode="524"/>
+        <Key keyLabel="Alt" keyCode="18"/>
+        <Key keyLabel=" " keyCode="32" weight="10.0"/>
+        <Key keyLabel="Alt" keyCode="18"/>
+        <Key keyLabel="Win" keyCode="524"/>
+        <Key keyLabel="Menu" keyCode="93"/>
+        <Key keyLabel="Ctrl" keyCode="17" weight="1.5"/>
+    </Layout>
+</Keyboard>
