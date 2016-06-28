@@ -38,15 +38,18 @@ https://developers.google.com/protocol-buffers/
 
 以下是运行时快照：
 android端（server）:
+  1. 触摸板
 ![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_1.png)
+  2. 主键盘
 ![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_2.png)
+  3. 从键盘
 ![screenshot 3](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/server_3.png)
 pc端（client）:
 
- 正在监听android端的服务发现包：
+  1. 正在监听android端的服务发现包：
  
 ![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/client_1.png)
 
- 收到android端的服务发现包，响应android的服务链接请求，并且建立链接：
+  2. 收到android端的服务发现包，响应android的服务链接请求，并且建立链接：
  
 ![screenshot 2](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/client_2.png)
