@@ -10,7 +10,7 @@ https://developers.google.com/protocol-buffers/
   3. bin 这个目录下是已经编译好的二进制文件，其中有一个android上的apk文件和一个平台系统无关的可执行的jar文件（在linux/windows上执行：java -jar WirelessHidClient.jar 即可执行），用户可以直接运行使用，无需从源码编译。
 
 2016.06.28 更新
-  1. 修该整体架构，将pc端作为server端，android端作为client端。
+  1. 修改整体架构，将pc端作为server端，android端作为client端。
      pc端一直在监听来自android端的消息，如果android端有链接请求则建立请求；
      如果android端断开链接则pc端继续监听，直到有链接消息。
   2. 增加服务自动发现机制，pc端只需要运行程序即可，android端也只需要
