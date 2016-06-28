@@ -1,8 +1,22 @@
 # WirelessHid
 基于无线wifi的hid实现（api 21, android5.0以上版本），使用android设备的触摸屏通过wifi网络（局域网最佳）控制pc上的鼠标指针和基本键盘数据输入。
 
-整个架构是C/S架构的，其中android设备是server端，pc（windows/linux）是client端。Android上的输入移动事件通过网络打包发送给pc端，目前的打包是使用的google的protocol buffer，这是一个基于二进制的数据封装和解封装的开源库，详情请见：
+整个架构是C/S架构的，其中android设备是client端，pc（windows/linux）是server端。Android上的输入移动事件通过网络打包发送给pc端，目前的打包是使用的google的protocol buffer，这是一个基于二进制的数据封装和解封装的开源库，详情请见：
 https://developers.google.com/protocol-buffers/
+
+各个目录说明：
+  1. android 这个目录下的是android上的app源码，是整个架构的client端。目前工程是android studio的工程，可以使用android studio直接打开。
+  2. pc 这个目录是pc(linux/windows)上的可执行程序的源码（目前是JAVA实现），同时包含了所需要的protobuf库。可以使用eclipse导入工程。
+  3. bin 这个目录下是已经编译好的二进制文件，其中有一个android上的apk文件和一个平台系统无关的可执行的jar文件（在linux/windows上执行：java -jar WirelessHidClient.jar 即可执行），用户可以直接运行使用，无需从源码编译。
+
+2016.06.28 更新
+  1. 修该整体架构，将pc端作为server端，android端作为client端。
+     pc端一直在监听来自android端的消息，如果android端有链接请求则建立请求；
+     如果android端断开链接则pc端继续监听，直到有链接消息。
+  2. 增加服务自动发现机制，pc端只需要运行程序即可，android端也只需要
+     打开app，然后app会通过UDP的224.0.0.1地址进行组播查找服务，如果找到
+     服务，则向服务器发起链接。
+  3. 修改音量键对应的键值，音量下键对应方向键下键，音量上键对应方向键上键。
 
 目前实现了以下功能：
 
