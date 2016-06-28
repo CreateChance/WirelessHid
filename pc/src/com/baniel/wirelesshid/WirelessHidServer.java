@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 
 import com.baniel.wirelesshid.WirelessHidProto.HidData;
 
-public class WirelessHidClient {
+public class WirelessHidServer {
 	
 	//Robot object
 	private static Robot mRobot = null;
