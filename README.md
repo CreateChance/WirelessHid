@@ -48,10 +48,9 @@ android端（client）:
 ![screenshot 3](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Client_3.png)
 
 pc端（server）:
-  1. 正在监听android端的服务发现包:
-
+  1. 正在监听android端的服务发现包
 ![screenshot 4](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Server_1.png)
-  2. 收到android端的服务发现包，响应android的服务链接请求，并且建立链接:
+  2. 收到android端的服务发现包，响应android的服务链接请求，并且建立链接
 ![screenshot 5](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Server_2.png)
-  3. 收到android端的断开请求包，断开链接，并且重新监听链接请求:
+  3. 收到android端的断开请求包，断开链接，并且重新监听链接请求
 ![screenshot 6](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Server_3.png)
