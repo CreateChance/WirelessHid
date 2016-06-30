@@ -7,7 +7,7 @@ https://developers.google.com/protocol-buffers/
 各个目录说明：
   1. android 这个目录下的是android上的app源码，是整个架构的client端。目前工程是android studio的工程，可以使用android studio直接打开。
   2. pc 这个目录是pc(linux/windows)上的可执行程序的源码（目前是JAVA实现），同时包含了所需要的protobuf库。可以使用eclipse导入工程。
-  3. bin 这个目录下是已经编译好的二进制文件，其中有一个android上的apk文件和一个平台系统无关的可执行的jar文件（在linux/windows上执行：java -jar WirelessHidClient.jar 即可执行），用户可以直接运行使用，无需从源码编译。
+  3. bin 这个目录下是已经编译好的二进制文件，其中有一个android上的apk文件和一个平台系统无关的可执行的jar文件（在linux/windows上执行：java -jar WirelessHidServer.jar 即可执行），用户可以直接运行使用，无需从源码编译。
 
 2016.06.28 更新
   1. 修改整体架构，将pc端作为server端，android端作为client端。
