@@ -38,6 +38,8 @@ https://developers.google.com/protocol-buffers/
 
 以下是运行时快照：
 android端（client）:
+  0. 搜索pc端服务（组播服务发现过程）
+![screenshot 0](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Client_0.png)
   1. 触摸板
 ![screenshot 1](https://github.com/CreateChance/WirelessHid/blob/master/ScreenShot/Client_1.png)
   2. 主键盘
