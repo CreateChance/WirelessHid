@@ -1,5 +1,6 @@
 package com.baniel.wirelesshid;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,6 +38,8 @@ public class WirelessHidService extends Service {
     private ArrayList<DataHandlerListener> mListenerList = new ArrayList<>();
 
     private final String ACTION_RESET_CONNECTION = "com.baniel.wirelesshid.ACTION_RESET_CONNECTION";
+
+    private Handler mUIHandler = null;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -122,6 +125,10 @@ public class WirelessHidService extends Service {
         mListenerList.add(listener);
     }
 
+    public void setUIHandler(Handler handler) {
+        this.mUIHandler = handler;
+    }
+
     private class PCDiscoverer {
         private final String TAG = "PCDiscoverer";
 
@@ -144,7 +151,6 @@ public class WirelessHidService extends Service {
                 @Override
                 public void run() {
                     try {
-
                         DatagramPacket packet;
                         packet = new DatagramPacket(new byte[256], 256);
 
@@ -160,6 +166,11 @@ public class WirelessHidService extends Service {
                                 Log.d(TAG, "It is not a valid response, just ignore it.");
                                 packet.setData(new byte[256]);
                             }
+                        }
+
+                        // send message to activity to stop progress dialog.
+                        if (mUIHandler != null) {
+                            mUIHandler.obtainMessage(MainActivity.MSG_FOUND_SERVICE).sendToTarget();
                         }
 
                         mPCIPAddress = packet.getAddress();

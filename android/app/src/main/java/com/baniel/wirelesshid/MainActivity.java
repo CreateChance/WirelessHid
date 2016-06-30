@@ -1,8 +1,10 @@
 package com.baniel.wirelesshid;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.hardware.Sensor;
@@ -12,6 +14,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,6 +35,11 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
 
     private PowerManager.WakeLock mWakeLock = null;
 
+    private Handler mUIHandler = null;
+    private ProgressDialog mProgressDialog = null;
+
+    public static final int MSG_FOUND_SERVICE = 101;
+
     private boolean mIsBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -39,6 +47,7 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
             mService = ((WirelessHidService.MyBinder)service).getService();
             mDataSendHandler = mService.getDataSendHandler();
             mService.setListener(MainActivity.this);
+            mService.setUIHandler(mUIHandler);
         }
 
         @Override
@@ -56,6 +65,25 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mUIHandler = new Handler(getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                switch (msg.what) {
+                    case MSG_FOUND_SERVICE:
+                        // dismiss discovering dialog cause we have found one pc.
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        };
+
         Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
         startService(intent);
         doBindService();
@@ -64,6 +92,23 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
                 newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WirelessHid");
 
         shakeDetector = new ShakeDetector(this);
+
+        // show progress dialog to tell user we are discovering service.
+        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+            mProgressDialog = new ProgressDialog(MainActivity.this);
+            mProgressDialog.setTitle("Discovering service");
+            mProgressDialog.setMessage("Please wait...");
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mProgressDialog.dismiss();
+                    doExitApplication();
+                }
+            });
+            mProgressDialog.show();
+        }
     }
 
     @Override
@@ -94,11 +139,7 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
         long time = System.currentTimeMillis();
 
         if (time - mPressTime < 1500) {
-            doUnbindService();
-            Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
-            stopService(intent);
-
-            finish();
+            doExitApplication();
         } else {
             Toast.makeText(this, "Press again to exit.", Toast.LENGTH_SHORT).show();
         }
@@ -140,6 +181,14 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
         if (mWakeLock.isHeld()) {
             mWakeLock.release();
         }
+    }
+
+    void doExitApplication() {
+        doUnbindService();
+        Intent intent = new Intent(MainActivity.this, WirelessHidService.class);
+        stopService(intent);
+
+        MainActivity.this.finish();
     }
 
     void doBindService() {
