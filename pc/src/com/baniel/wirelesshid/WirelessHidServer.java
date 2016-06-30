@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.baniel.wirelesshid.WirelessHidProto.HidData;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 public class WirelessHidServer {
 	
@@ -28,6 +29,8 @@ public class WirelessHidServer {
 	private static ServerSocket mServerSocket = null;
 	private static InetAddress group = null;
 	private static Socket mSocket = null;
+	
+	private static InetAddress mCurrentAndroid = null;
 	
 	public static void main(String[] args) {
 		
@@ -45,6 +48,7 @@ public class WirelessHidServer {
 		        packet = new DatagramPacket(buf, buf.length);
 		        
 		        while (true) {
+		        	System.out.println("##########################LISTENING###########################");
 		            System.out.println("listen for service discover msg.");
 		            multicastSocket.receive(packet);
 		            
@@ -66,7 +70,6 @@ public class WirelessHidServer {
 			}
 			
 			try {
-				
 				System.out.println("I'm waiting for connecting.");
 		        mServerSocket = new ServerSocket(Constant.HID_TCP_PORT);
 		        mServerSocket.setReuseAddress(true);
@@ -106,6 +109,9 @@ public class WirelessHidServer {
 				mRobot = new Robot();
 				printClientInfo(mSocket);
 				
+				// save current connected android device.
+				mCurrentAndroid = mSocket.getInetAddress();
+				
 				getDisconnectListenThread().start();
 				while (true) {
 					data = HidData.parseDelimitedFrom(is);
@@ -115,6 +121,8 @@ public class WirelessHidServer {
 						break;
 					}
 				}
+			} catch (InvalidProtocolBufferException e) {
+				System.out.println("Connection lost.");
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -129,11 +137,12 @@ public class WirelessHidServer {
 			}
 			
 			mSocket = null;
-			System.out.println("Connection lost.");
+			multicastSocket.close();
 		}
 	}
 	
 	private static void printClientInfo(Socket socket) {
+		System.out.println("##########################CONNECTED###########################");
 		System.out.println("Client connected!");
 		System.out.println("remote info: " + socket.getRemoteSocketAddress());
 	}
@@ -183,12 +192,16 @@ public class WirelessHidServer {
 					try {
 						multicastSocket.receive(packet);
 						
-						String msg = new String(packet.getData()).trim();
+						if (packet.getAddress().equals(mCurrentAndroid) && mSocket != null) {
 						
-						if (Constant.HID_SERVICE_DISCONNECT.equals(msg)) {
-							is.close();
-							System.out.println("receive disconnect msg, so disconnect it.");
-							break;
+							String msg = new String(packet.getData()).trim();
+							
+							if (Constant.HID_SERVICE_DISCONNECT.equals(msg)) {
+								is.close();
+								System.out.println("##########################DISCONNECTED###########################");
+								System.out.println("receive disconnect msg, so disconnect it.");
+								break;
+							}
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -200,6 +213,8 @@ public class WirelessHidServer {
 						break;
 					}
 				}
+				
+				System.out.println("disconnect message listen thread exit.");
 			}
 		});
 	}
