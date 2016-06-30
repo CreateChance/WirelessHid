@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@android:style/ThemeOverlay.Material.Dark">
         <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

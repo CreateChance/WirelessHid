@@ -129,6 +129,10 @@ public class WirelessHidService extends Service {
         this.mUIHandler = handler;
     }
 
+    public boolean isConnected() {
+        return mDataSendHandler != null;
+    }
+
     private class PCDiscoverer {
         private final String TAG = "PCDiscoverer";
 

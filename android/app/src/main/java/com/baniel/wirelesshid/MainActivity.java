@@ -48,6 +48,25 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
             mDataSendHandler = mService.getDataSendHandler();
             mService.setListener(MainActivity.this);
             mService.setUIHandler(mUIHandler);
+
+            if (!mService.isConnected()) {
+                // show progress dialog to tell user we are discovering service.
+                if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+                    mProgressDialog = new ProgressDialog(MainActivity.this);
+                    mProgressDialog.setTitle("Discovering service");
+                    mProgressDialog.setMessage("Please wait...");
+                    mProgressDialog.setCancelable(false);
+                    mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mProgressDialog.dismiss();
+                                    doExitApplication();
+                                }
+                            });
+                    mProgressDialog.show();
+                }
+            }
         }
 
         @Override
@@ -92,23 +111,6 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
                 newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WirelessHid");
 
         shakeDetector = new ShakeDetector(this);
-
-        // show progress dialog to tell user we are discovering service.
-        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
-            mProgressDialog = new ProgressDialog(MainActivity.this);
-            mProgressDialog.setTitle("Discovering service");
-            mProgressDialog.setMessage("Please wait...");
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel",
-                    new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mProgressDialog.dismiss();
-                    doExitApplication();
-                }
-            });
-            mProgressDialog.show();
-        }
     }
 
     @Override
@@ -172,6 +174,8 @@ public class MainActivity extends Activity implements WirelessHidService.DataHan
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy");
+
         super.onDestroy();
 
         if (shakeDetector != null) {
